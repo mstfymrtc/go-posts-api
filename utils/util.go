@@ -5,9 +5,11 @@ import (
 	"net/http"
 )
 
+//parse status and message to response body
 func Message(status bool, message string) (map[string]interface{}) {
 	return map[string]interface{}{"status": status, "message": message}
 }
+//encode response body and header as json
 func Respond(w http.ResponseWriter, data map[string]interface{}) {
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
