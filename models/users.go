@@ -42,7 +42,7 @@ func (user *User) Validate() (map[string]interface{}, bool) {
 	return u.Message(true, "New user validation successful"), true
 }
 
-func (user *User) Register() (map[string]interface{}) {
+func (user *User) Create() (map[string]interface{}) {
 	if resp, ok := user.Validate(); !ok {
 		return resp
 	}
