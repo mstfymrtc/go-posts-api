@@ -16,9 +16,9 @@ type Token struct {
 
 type User struct {
 	gorm.Model
-	FullName  string `json:"fullName"`
-	UserName  string `json:"userName"`
-	AvatarUrl string `json:"avatarUrl"`
+	FullName  string `json:"full_name"`
+	UserName  string `json:"user_name"`
+	AvatarUrl string `json:"avatar_url"`
 	Password  string `json:"password"`
 	Token     string `json:"token";sql:"-"`
 }
@@ -31,7 +31,7 @@ func (user *User) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "Password length must be at least 6!"), false
 	}
 	temp := &User{}
-	err := GetDB().Table("users").Where("username=?", user.UserName).First(temp).Error
+	err := GetDB().Table("users").Where("user_name=?", user.UserName).First(temp).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return u.Message(false, "Connection error!"), false
 	}
@@ -39,7 +39,7 @@ func (user *User) Validate() (map[string]interface{}, bool) {
 		return u.Message(false, "This username already exists!"), false
 	}
 
-	return u.Message(true, "New user validation successful"), true
+	return u.Message(true, "User validation successful"), true
 }
 
 func (user *User) Create() (map[string]interface{}) {
@@ -72,7 +72,7 @@ func (user *User) Create() (map[string]interface{}) {
 func Login(userName, password string) (map[string]interface{}) {
 
 	user := &User{}
-	err := GetDB().Table("users").Where("userName=?", userName).First(user).Error
+	err := GetDB().Table("users").Where("user_name=?", userName).First(user).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return u.Message(false, fmt.Sprintf("User with username % does not exist!", userName))
