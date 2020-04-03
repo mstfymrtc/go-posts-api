@@ -14,7 +14,7 @@ import (
 var JwtAuthentication = func(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		notAuth := []string{"/api/register", "/api/login"} //don't require authentication
+		notAuth := []string{"/api/register", "/api/authenticate"} //don't require authentication
 		requestPath := r.URL.Path                          //current request path
 
 		//if current path is one of the ones that does not require auth, serve request
@@ -70,7 +70,7 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 		}
 
 		//everything is ok, token is valid.
-		fmt.Sprintf("User %", tk.Username)
+		fmt.Sprintf("User %", tk.UserId)
 		ctx := context.WithValue(r.Context(), "user", tk.UserId)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)

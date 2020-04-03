@@ -4,12 +4,17 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/mstfymrtc/go-posts-api/app"
+	"github.com/mstfymrtc/go-posts-api/controllers"
 	"net/http"
 	"os"
 )
 
 func main() {
 	router := mux.NewRouter()
+
+	router.HandleFunc("/api/register", controllers.Register).Methods("POST")
+	router.HandleFunc("/api/authenticate", controllers.Authenticate).Methods("POST")
+
 	router.Use(app.JwtAuthentication)
 	port := os.Getenv("PORT")
 	if port == "" {
