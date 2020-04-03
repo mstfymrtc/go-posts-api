@@ -4,12 +4,7 @@ import (
 	"context"
 	"fmt"
 	jwt "github.com/dgrijalva/jwt-go"
-	/*"context"
-	"fmt"
 	"github.com/mstfymrtc/go-posts-api/models"
-	"net/http"
-	"os"
-	"strings"*/
 	u "github.com/mstfymrtc/go-posts-api/utils"
 	"net/http"
 	"os"
