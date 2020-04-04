@@ -14,6 +14,9 @@ func main() {
 
 	router.HandleFunc("/api/register", controllers.Register).Methods("POST")
 	router.HandleFunc("/api/authenticate", controllers.Authenticate).Methods("POST")
+	router.HandleFunc("/api/posts", controllers.GetPosts).Methods("GET")
+	router.HandleFunc("/api/posts/{id}", controllers.GetPost).Methods("GET")
+	router.HandleFunc("/api/posts", controllers.CreatePost).Methods("POST")
 
 	router.Use(app.JwtAuthentication)
 	port := os.Getenv("PORT")

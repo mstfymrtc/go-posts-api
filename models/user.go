@@ -1,12 +1,12 @@
 package models
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
 	u "github.com/mstfymrtc/go-posts-api/utils"
 	"golang.org/x/crypto/bcrypt"
 	"os"
+	"time"
 )
 
 type Token struct {
@@ -15,12 +15,15 @@ type Token struct {
 }
 
 type User struct {
-	gorm.Model
-	FullName  string `json:"full_name"`
-	UserName  string `json:"user_name"`
-	AvatarUrl string `json:"avatar_url"`
-	Password  string `json:"password"`
-	Token     string `json:"token";sql:"-"`
+	ID        uint       `gorm:"primary_key";json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at"`
+	FullName  string     `json:"full_name"`
+	UserName  string     `json:"user_name";gorm:"not null;unique"`
+	AvatarUrl string     `json:"avatar_url"`
+	Password  string     `json:"password"`
+	Token     string     `json:"token";sql:"-"`
 }
 
 func (user *User) Validate() (map[string]interface{}, bool) {
@@ -75,7 +78,7 @@ func Login(userName, password string) (map[string]interface{}) {
 	err := GetDB().Table("users").Where("user_name=?", userName).First(user).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return u.Message(false, fmt.Sprintf("User with username % does not exist!", userName))
+			return u.Message(false, "User with username "+userName+" does not exist!")
 		}
 		return u.Message(false, "Connection error!")
 	}

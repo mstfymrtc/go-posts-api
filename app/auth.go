@@ -71,7 +71,7 @@ var JwtAuthentication = func(next http.Handler) http.Handler {
 
 		//everything is ok, token is valid.
 		fmt.Sprintf("User %", tk.UserId)
-		ctx := context.WithValue(r.Context(), "user", tk.UserId)
+		ctx := context.WithValue(r.Context(), "user_id", tk.UserId)
 		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	})
