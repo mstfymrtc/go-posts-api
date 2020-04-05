@@ -87,7 +87,7 @@ func DeletePost(id uint) (map[string]interface{}) {
 
 func GetPosts() ([]*Post) {
 	posts := make([]*Post, 0)
-	err := GetDB().Table("posts").Find(&posts).Error
+	err := GetDB().Table("posts").Order("created_at desc").Find(&posts).Error
 
 	if err != nil {
 		fmt.Println(err)
