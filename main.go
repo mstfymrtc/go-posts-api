@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/mstfymrtc/go-posts-api/app"
 	"github.com/mstfymrtc/go-posts-api/controllers"
 	"github.com/rs/cors"
-	"net/http"
-	"os"
 )
 
 func main() {
@@ -32,11 +32,7 @@ func main() {
 		Debug: true, // Enable Debugging for testing, consider disabling in production
 	}).Handler(router)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8000"
-	}
-	err := http.ListenAndServe(":"+port, handler)
+	err := http.ListenAndServe(":8000", handler)
 	if err != nil {
 		fmt.Println(err)
 	}
