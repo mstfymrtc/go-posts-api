@@ -18,7 +18,20 @@ func main() {
 	router.HandleFunc("/api/posts", controllers.GetPosts).Methods("GET")
 	router.HandleFunc("/api/posts/{id}", controllers.GetPost).Methods("GET")
 	router.HandleFunc("/api/posts", controllers.CreatePost).Methods("POST")
-	handler := cors.Default().Handler(router)
+	router.HandleFunc("/api/posts/{id}", controllers.DeletePost).Methods("DELETE")
+
+	handler := cors.New(cors.Options{
+		AllowCredentials: true,
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{
+			"Accept",
+			"Content-Type",
+			"Authorization",
+		},
+		Debug: true, // Enable Debugging for testing, consider disabling in production
+	}).Handler(router)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"

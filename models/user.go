@@ -21,7 +21,6 @@ type User struct {
 	DeletedAt *time.Time `json:"deleted_at"`
 	FullName  string     `json:"full_name"`
 	UserName  string     `json:"user_name";gorm:"not null;unique"`
-	AvatarUrl string     `json:"avatar_url"`
 	Password  string     `json:"password"`
 	Token     string     `json:"token";sql:"-"`
 }

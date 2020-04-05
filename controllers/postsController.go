@@ -38,6 +38,18 @@ var GetPost = func(w http.ResponseWriter, r *http.Request) {
 	resp["data"] = data
 	u.Respond(w, resp)
 }
+var DeletePost = func(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	//get id from query params
+	id, err := strconv.Atoi(params["id"])
+	if err != nil {
+		//The passed path parameter is not an integer
+		u.Respond(w, u.Message(false, "The request is not valid"))
+		return
+	}
+	resp := models.DeletePost(uint(id))
+	u.Respond(w, resp)
+}
 
 var GetPosts = func(w http.ResponseWriter, r *http.Request) {
 	data := models.GetPosts()

@@ -73,6 +73,17 @@ func GetPost(id uint) (*Post) {
 	post.Author.DeletedAt = nil
 	return post
 }
+func DeletePost(id uint) (map[string]interface{}) {
+	post := &Post{}
+	err := GetDB().Table("posts").Where("id=?", id).Delete(post).Error
+
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	return u.Message(true, "Post deleted successfully.")
+}
 
 func GetPosts() ([]*Post) {
 	posts := make([]*Post, 0)

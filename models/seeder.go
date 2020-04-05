@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
@@ -19,6 +20,8 @@ func Seed(db *gorm.DB) {
 		log.Fatalf("an error occured: %v", err)
 	}
 	if count == 0 {
+		hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+		user.Password = string(hashedPassword)
 		err := db.Debug().Model(&User{}).Create(&user).Error
 		if err != nil {
 			log.Fatalf("cannot seed users table: %v", err)
